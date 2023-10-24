@@ -8,7 +8,7 @@ function Overview() {
   const [selectedStatus, setSelectedStatus] = useState('All');
 
   useEffect(() => {
-    fetch('http://localhost:5000/getAllTests')
+    fetch('http://34.150.173.125:3000/getAllTests')
       .then((response) => response.json())
       .then((data) => {
         if (data.testsData) {
