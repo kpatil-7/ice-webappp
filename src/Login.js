@@ -15,7 +15,7 @@ const Login = () => {
   }, []);
 
   const handleLogin = async () => {
-    const response = await fetch('http://34.150.173.125:3000/login', {
+    const response = await fetch('http://34.150.173.125:5000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
