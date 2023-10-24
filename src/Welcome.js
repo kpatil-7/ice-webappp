@@ -13,7 +13,7 @@ function Welcome() {
   const [isFirstTimeLogin, setIsFirstTimeLogin] = useState(true);
 
   useEffect(() => {
-    fetch(`http://34.150.173.125:3000/checkNameColumn?username=${username}`)
+    fetch(`http://34.150.173.125:3306/checkNameColumn?username=${username}`)
     
       .then((response) => response.json())
       .then((data) => {
