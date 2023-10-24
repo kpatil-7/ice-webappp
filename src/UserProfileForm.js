@@ -13,7 +13,7 @@ const UserProfileForm = ({ username }) => {
     const userData = { username, name, phoneNumber, email };
 
     try {
-      const response = await fetch('http://34.150.173.125:3306/userprofileform', {
+      const response = await fetch('http://34.150.173.125:3000/userprofileform', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
