@@ -8,4 +8,4 @@ COPY public public
 EXPOSE 3000 
 EXPOSE 5000
 CMD ["npm","start"]
-CMD ["node","server.js"]
+CMD ["node","src/server.js"]
