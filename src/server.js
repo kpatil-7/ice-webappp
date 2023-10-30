@@ -4,7 +4,7 @@ const cors = require('cors');
 const mysql = require('mysql2');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -15,11 +15,10 @@ app.use((req, res, next) => {
 });
 
 const db = mysql.createConnection({
-  host: '172.17.0.1',
-  user: 'bltest',
-  password: 'bltest260!',
-  database: 'bltest',
-  port: 3306
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'bltest'
 });
 
 db.connect((err) => {
@@ -296,6 +295,42 @@ app.get('/getFailedTests', (req, res) => {
         return res.status(500).json({ message: 'Error fetching tests data' });
       }
       res.status(200).json({ testsData: results });
+    });
+  });
+
+  app.get('/api/tooling-data', (req, res) => {
+    const query = 'SELECT * FROM ToolingData WHERE Test_Scenario_1 IS NULL OR Test_Scenario_2 IS NULL OR Test_Scenario_3 IS NULL OR Test_Scenario_4 IS NULL OR Test_Scenario_5 IS NULL OR Test_Scenario_6 IS NULL';
+  
+    db.query(query, (error, results) => {
+      if (error) {
+        console.error('Error fetching tooling data:', error);
+        return res.status(500).json({ message: 'Error fetching tooling data' });
+      }
+      res.status(200).json({ toolingData: results });
+    });
+  });
+
+  app.post('/submitTestResult', (req, res) => {
+    const { testID, Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6, notes } = req.body;
+    const updateQuery = 'UPDATE ToolingData SET Test_Scenario_1 = ?, Test_Scenario_2 = ?, Test_Scenario_3 = ?, Test_Scenario_4 = ?,Test_Scenario_5 = ?,Test_Scenario_6 = ?, Notes = ? WHERE ID = ?';
+    const updateValues = [Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6, notes, testID];
+    db.query(updateQuery, updateValues, (error, results) => {
+      if (error) {
+        console.error('Error updating test record:', error);
+        return res.status(500).json({ message: 'Error updating test record' });
+      }
+      res.status(200).json({ message: 'Test record updated successfully' });
+    });
+  });
+
+  app.get('/api/failed-test-cases', (req, res) => {
+    const Query = 'SELECT * from ToolingData where Test_Scenario_1 = 0 OR Test_Scenario_2 = 0 OR Test_Scenario_3 = 0 OR Test_Scenario_4 = 0 OR Test_Scenario_5 = 0 OR Test_Scenario_6 = 0';
+    db.query(Query, (error, results) => {
+      if (error) {
+        console.error('Error updating test record:', error);
+        return res.status(500).json({ message: 'Error updating test record' });
+      }
+      res.status(200).json({ failedTestCases: results});
     });
   });
 
