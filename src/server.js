@@ -15,7 +15,7 @@ app.use((req, res, next) => {
 });
 
 const db = mysql.createConnection({
-  host: '127.0.0.1',
+  host: 'https://34.150.173.125',
   user: 'bltest',
   password: 'bltest260!',
   database: 'bltest'
