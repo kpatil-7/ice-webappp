@@ -4,7 +4,7 @@ const cors = require('cors');
 const mysql = require('mysql2');
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 3306;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -15,9 +15,9 @@ app.use((req, res, next) => {
 });
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
+  host: '34.150.173.125',
+  user: 'bltest',
+  password: 'bltest260!',
   database: 'bltest'
 });
 

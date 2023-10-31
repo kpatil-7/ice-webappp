@@ -9,7 +9,7 @@ function Admin2() {
   const [editingTest, setEditingTest] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5001/api/tooling-data')
+    fetch('http://34.150.173.125:3306/api/tooling-data')
       .then((response) => response.json())
       .then((data) => {
         if (data.toolingData) {
@@ -37,7 +37,7 @@ function Admin2() {
         console.error('Error fetching tooling data:', error);
       });
 
-    fetch('http://localhost:5001/api/failed-test-cases')
+    fetch('http://34.150.173.125:3306/api/failed-test-cases')
       .then((response) => response.json())
       .then((data) => {
         if (data.failedTestCases) {
@@ -109,7 +109,7 @@ function Admin2() {
       notes,
     };
 
-    fetch('http://localhost:5001/submitTestResult', {
+    fetch('http://34.150.173.125:3306/submitTestResult', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
