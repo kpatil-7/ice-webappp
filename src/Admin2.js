@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import './styles.css';
 function Admin2() {
   const [data, setData] = useState([]);
   const [failedTestCases, setFailedTestCases] = useState([]);
@@ -144,7 +144,7 @@ function Admin2() {
       : data.filter((row) => row.ToolingName === selectedTooling);
 
   return (
-    <div className="App">
+    <div className="app-container">
       <div className="header">
         <h1>Tooling Data</h1>
         <button className="logout-button" onClick={handleLogout}>
@@ -175,12 +175,12 @@ function Admin2() {
             <th>ESRP</th>
             <th>CHE</th>
             <th>Location</th>
-            <th>TS1</th>
-            <th>TS2</th>
-            <th>TS3</th>
-            <th>TS4</th>
-            <th>TS5</th>
-            <th>TS6</th>
+            <th>TS:1 I3 Call Origination</th>
+            <th>TS:2 Transfer & Conferencing</th>
+            <th>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
+            <th>TS:4 EIDO Subscription for Call State Update Notifications</th>
+            <th>TS:5 Alternative-Overflow via Service or Queue State</th>
+            <th>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
             <th>Notes</th>
             <th>Submit</th>
           </tr>
@@ -263,12 +263,12 @@ function Admin2() {
               <th>ESRP</th>
               <th>CHE</th>
               <th>Location</th>
-              <th>TS1</th>
-              <th>TS2</th>
-              <th>TS3</th>
-              <th>TS4</th>
-              <th>TS5</th>
-              <th>TS6</th>
+              <th>TS:1 I3 Call Origination</th>
+              <th>TS:2 Transfer & Conferencing</th>
+              <th>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
+              <th>TS:4 EIDO Subscription for Call State Update Notifications</th>
+              <th>TS:5 Alternative-Overflow via Service or Queue State</th>
+              <th>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
               <th>Notes</th>
               <th>Update Notes</th> 
               <th>Actions</th>

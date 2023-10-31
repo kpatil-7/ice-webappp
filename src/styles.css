@@ -16,7 +16,9 @@ body {
   height: auto;
   background-color: var(--background);
   color: var(--text);
-  padding: 20px
+  padding: 20px;
+  overflow-x: auto; /* Hide horizontal scrollbar */
+  overflow-y: auto; /* Enable vertical scrollbar if content overflows vertically */
 }
 
 .login-container {
@@ -105,8 +107,8 @@ select:focus {
   }
 }
 table {
-  border-collapse: collapse;
-  width: 800px;
+  width: 100%; /* Make the table take up the full width of its container */
+  max-width: 100%; /* Set a maximum width to prevent overflow */
 }
 
 th, td {
@@ -117,6 +119,12 @@ th, td {
 th {
   background-color: var(--accent);
   color: var(--background);
+}
+
+@media(max-width: 768px) {
+  th, td {
+    font-size: 14px; /* Reduce font size for smaller screens */
+  }
 }
 .image-container {
   height: auto;
@@ -157,5 +165,10 @@ th {
   box-shadow: 0 0 5px var(--accent);
 }
 
+.app-container {
+  width: 100%; /* Set the desired width (e.g., 100%) */
+  margin: 0 auto; /* Center the container horizontally */
+  overflow-x: hidden; /* Hide horizontal scrollbar if the content overflows */
+}
 
 
