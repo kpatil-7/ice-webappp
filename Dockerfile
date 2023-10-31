@@ -35,8 +35,8 @@ EXPOSE 3000
 EXPOSE 5000
 
 # Command to start your React app
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
 
-CMD ["node", "src/server.js"]
+# CMD ["node", "src/server.js"]
 
 #display csomething
