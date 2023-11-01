@@ -107,6 +107,11 @@ function Admin2() {
       Test_Scenario_6,
       notes,
     };
+    
+    setNotesMap((prevNotesMap) => ({
+      ...prevNotesMap,
+      [testID]: '',
+    }));
 
     fetch(`${process.env.REACT_APP_API_URL}/submitTestResult`, {
       method: 'POST',
