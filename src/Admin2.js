@@ -24,7 +24,6 @@ function Admin2() {
               TS5: false,
               TS6: false,
             };
-            // initialNotesMap[row.ID] = '';
           });
           setTestScenarioChecks(initialTestScenarioChecks);
           setNotesMap(initialNotesMap);
@@ -52,7 +51,7 @@ function Admin2() {
   }, []);
 
   const handleLogout = () => {
-    // Handle logout here
+    window.location.href = `/`
   };
 
   const handleToolingFilterChange = (e) => {

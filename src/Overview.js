@@ -23,7 +23,7 @@ function Overview() {
   }, []);
 
   const handleLogout = () => {
-    window.location.reload();
+    window.location.href = `/`
   };
 
   const handleStatusFilterChange = (e) => {
