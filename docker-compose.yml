@@ -1,0 +1,30 @@
+version: '3'
+services:
+  #node-app:
+  # image: ghcr.io/kpatil-7/ice-webappp:main
+  # container_name: webapp
+  # command: bash -c "node src/server.js && npm start"
+  #     #command: ["node","src/server.js","npm", "start"]
+
+  # ports:
+  #   - "5000:5000"
+  #   - "3000:3000"
+  # depends_on:
+  #   - mysql-db
+
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: 'INdigital260!'
+      MYSQL_DATABASE: 'bltest'
+      MYSQL_USER: 'bltest'
+      MYSQL_PASSWORD: 'bltest260!'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data/bltest:/var/lib/mysql
+  
+volumes:
+    mysql-data:
+
