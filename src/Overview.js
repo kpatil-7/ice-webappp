@@ -8,7 +8,7 @@ function Overview() {
   const [selectedStatus, setSelectedStatus] = useState('All');
 
   useEffect(() => {
-    fetch('http://localhost:5001/getAllTests')
+    fetch(`${process.env.REACT_APP_API_URL}/getAllTests`)
       .then((response) => response.json())
       .then((data) => {
         if (data.testsData) {

@@ -13,7 +13,7 @@ const UserProfileForm = ({ username }) => {
     const userData = { username, name, phoneNumber, email };
 
     try {
-      const response = await fetch('http://localhost:5001/userprofileform', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/userprofileform`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

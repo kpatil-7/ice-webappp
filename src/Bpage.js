@@ -38,7 +38,7 @@ function Bpage() {
   }, []);
 
   const fetchUserData = () => {
-    fetch(`http://localhost:5000/Bpage?username=${username}`)
+    fetch(`${process.env.REACT_APP_API_URL}/Bpage?username=${username}`)
       .then((response) => response.json())
       .then((data) => {
         console.log('Server Response:', data);
@@ -80,7 +80,7 @@ function Bpage() {
 
   const updateTestTable = (columnValue, statusValue, commentValue) => {
     console.log(columnValue);
-    return fetch('http://localhost:5000/updateTestTable', {
+    return fetch(`${process.env.REACT_APP_API_URL}/updateTestTable`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ function Bpage() {
   };
 
   const getTestResults = () => {
-    fetch(`http://localhost:5000/getTestResults?username=${username}`)
+    fetch(`${process.env.REACT_APP_API_URL}/getTestResults?username=${username}`)
       .then((response) => response.json())
       .then((data) => {
         console.log('Server Response:', data);
@@ -116,7 +116,7 @@ function Bpage() {
   };
 
   const getFailedTests = () => {
-  fetch(`http://localhost:5000/getFailedTests?username=${username}`)
+  fetch(`${process.env.REACT_APP_API_URL}/getFailedTests?username=${username}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.failedTests) {
