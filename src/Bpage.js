@@ -146,7 +146,7 @@ function Bpage() {
   };
 
   const handleLogout = () => {
-    window.location.reload();
+    window.location.href = `/`
   };
 
   return (

@@ -25,7 +25,7 @@ const UserProfileForm = ({ username }) => {
         const data = await response.json();
         if (data && data.user && data.user.username) {
           alert('User data saved successfully!');
-          window.location.href = `/Welcome/${data.user.username}`;
+          window.location.href = `/Bpage/${username}`;
         } else {
           console.log('Invalid data structure:', data);
           alert('Error saving user data. Invalid data structure.');

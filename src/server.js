@@ -182,7 +182,6 @@ app.get('/getTestResults', (req, res) => {
     SELECT CONCAT_WS(':', CASE
         WHEN u1.OSP_Voice IS NOT NULL AND u2.LNG IS NOT NULL THEN CONCAT(u1.username, ':OSP_Voice')
         WHEN u1.LNG IS NOT NULL AND u2.OSP_Voice IS NOT NULL THEN CONCAT(u1.username, ':LNG')
-        WHEN u1.Logger IS NOT NULL AND u2.ESRP IS NOT NULL THEN CONCAT(u1.username, ':Logger')
         WHEN u1.FG IS NOT NULL AND u2.ECRF IS NOT NULL THEN CONCAT(u1.username, ':FG')
         WHEN u1.PSAP IS NOT NULL AND u2.ECRF IS NOT NULL THEN CONCAT(u1.username, ':PSAP')
         WHEN u1.ESRP IS NOT NULL AND u2.LNG IS NOT NULL THEN CONCAT(u1.username, ':ESRP')
@@ -195,7 +194,6 @@ app.get('/getTestResults', (req, res) => {
       CASE
         WHEN u1.OSP_Voice IS NOT NULL AND u2.LNG IS NOT NULL THEN CONCAT(u2.username, ':LNG')
         WHEN u1.LNG IS NOT NULL AND u2.OSP_Voice IS NOT NULL THEN CONCAT(u2.username, ':OSP_Voice')
-        WHEN u1.Logger IS NOT NULL AND u2.ESRP IS NOT NULL THEN CONCAT(u2.username, ':ESRP')
         WHEN u1.FG IS NOT NULL AND u2.ECRF IS NOT NULL THEN CONCAT(u2.username, ':ECRF')
         WHEN u1.PSAP IS NOT NULL AND u2.ECRF IS NOT NULL THEN CONCAT(u2.username, ':ECRF')
         WHEN u1.ESRP IS NOT NULL AND u2.LNG IS NOT NULL THEN CONCAT(u2.username, ':LNG')
@@ -210,7 +208,6 @@ app.get('/getTestResults', (req, res) => {
   JOIN users u2 ON u1.username <> u2.username
   WHERE ((u1.OSP_Voice IS NOT NULL AND u2.LNG IS NOT NULL)
     OR (u1.LNG IS NOT NULL AND u2.OSP_Voice IS NOT NULL)
-    OR (u1.Logger IS NOT NULL AND u2.ESRP IS NOT NULL)
     OR (u1.FG IS NOT NULL AND u2.ECRF IS NOT NULL)
     OR (u1.PSAP IS NOT NULL AND u2.ECRF IS NOT NULL)
     OR (u1.ESRP IS NOT NULL AND u2.LNG IS NOT NULL)

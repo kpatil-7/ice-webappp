@@ -16,7 +16,7 @@ const logoStyle = {
 };
 
 const handleLogout = () => {
-  window.location.reload();
+  window.location.href = `/`
 };
 
 function Done() {
