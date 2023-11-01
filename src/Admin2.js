@@ -294,7 +294,7 @@ function Admin2() {
                 <td>{row.Test_Scenario_4}</td>
                 <td>{row.Test_Scenario_5}</td>
                 <td>{row.Test_Scenario_6}</td>
-                <td>{row.Notes}</td>
+                <td class="notes">{row.Notes}</td>
                 <td>
                 <input
                   type="text"

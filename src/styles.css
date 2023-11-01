@@ -166,7 +166,11 @@ th {
 }
 
 .app-container {
-  width: 100%; /* Set the desired width (e.g., 100%) */
-  margin: 0 auto; /* Center the container horizontally */
-  overflow-x: hidden; /* Hide horizontal scrollbar if the content overflows */
+  width: 115%; 
+  margin: 0; 
+
+}
+
+.notes {
+  width: 100%;
 }
