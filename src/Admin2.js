@@ -74,19 +74,6 @@ function Admin2() {
       [testID]: notes,
     }));
   };
-  
-  const handleUpdateNotesChange = (testID, updateNotes) => {
-    // Update the update notes for the specified test
-    setFailedTestCases((prevLessSuccessfulTests) =>
-      prevLessSuccessfulTests.map((test) =>
-        test.ID === testID ? { ...test, UpdateNotes: updateNotes } : test
-      )
-    );
-  };
-
-  const setEditTest = (testID) => {
-    setEditingTest(testID);
-  };
 
   const handleSubmit = (testID) => {
     const notes = notesMap[testID];
@@ -123,7 +110,7 @@ function Admin2() {
       .then((response) => response.json())
       .then((responseData) => {
         console.log(responseData.message);
-        setData((prevData) => prevData.filter((row) => row.ID !== testID));
+        // setData((prevData) => prevData.filter((row) => row.ID !== testID));
         if (
           Test_Scenario_1 ||
           Test_Scenario_2 ||
@@ -259,24 +246,22 @@ function Admin2() {
         <h2>Less Successful Tests</h2>
         <table>
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>OSP_LNG</th>
-              <th>BCF</th>
-              <th>ECRF</th>
-              <th>ESRP</th>
-              <th>CHE</th>
-              <th>Location</th>
-              <th>TS:1 I3 Call Origination</th>
-              <th>TS:2 Transfer & Conferencing</th>
-              <th>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
-              <th>TS:4 EIDO Subscription for Call State Update Notifications</th>
-              <th>TS:5 Alternative-Overflow via Service or Queue State</th>
-              <th>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
-              <th>Notes</th>
-              <th>Update Notes</th> 
-              <th>Actions</th>
-            </tr>
+          <tr>
+        <th style={{ width: '15%' }}>ID</th>
+        <th style={{ width: '5%' }}>OSP_LNG</th>
+        <th style={{ width: '5%' }}>BCF</th>
+        <th style={{ width: '5%' }}>ECRF</th>
+        <th style={{ width: '5%' }}>ESRP</th>
+        <th style={{ width: '5%' }}>CHE</th>
+        <th style={{ width: '15%' }}>Location</th>
+        <th style={{ width: '40%' }}>Notes</th>
+        <th style={{ width: '10%' }}>TS:1 I3 Call Origination</th>
+        <th style={{ width: '10%' }}>TS:2 Transfer & Conferencing</th>
+        <th style={{ width: '10%' }}>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
+        <th style={{ width: '10%' }}>TS:4 EIDO Subscription for Call State Update Notifications</th>
+        <th style={{ width: '10%' }}>TS:5 Alternative-Overflow via Service or Queue State</th>
+        <th style={{ width: '10%' }}>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
+      </tr>
           </thead>
           <tbody>
             {failedTestCases.map((row, index) => (
@@ -288,23 +273,13 @@ function Admin2() {
                 <td>{row.ESRP}</td>
                 <td>{row.CHE}</td>
                 <td>{row.Location}</td>
+                <td>{row.Notes}</td>
                 <td>{row.Test_Scenario_1}</td>
                 <td>{row.Test_Scenario_2}</td>
                 <td>{row.Test_Scenario_3}</td>
                 <td>{row.Test_Scenario_4}</td>
                 <td>{row.Test_Scenario_5}</td>
                 <td>{row.Test_Scenario_6}</td>
-                <td class="notes">{row.Notes}</td>
-                <td>
-                <input
-                  type="text"
-                  value={notesMap[row.ID]}
-                  onChange={(e) => handleNotesChange(row.ID, e.target.value)}
-                />
-              </td>
-              <td>
-                <button onClick={() => handleSubmit(row.ID)}>Submit</button>
-              </td>
               </tr>
             ))}
           </tbody>

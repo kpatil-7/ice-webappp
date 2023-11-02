@@ -33,7 +33,7 @@ db.connect((err) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
     const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
-  
+
     db.query(query, [username, password], (err, results) => {
       if (err) {
         res.status(500).json({ message: 'Database error' });
@@ -157,7 +157,7 @@ app.get('/checkNameColumn', (req, res) => {
     }
     console.log('SQL Query:', query);
     console.log('Query Results:', results);
-    
+
     const name = results.length > 0 ? results[0].name : null;
     return res.status(200).json({ name });
   });
@@ -217,9 +217,9 @@ app.get('/getTestResults', (req, res) => {
     OR (u1.ECRF IS NOT NULL AND u2.ESRP IS NOT NULL)
     OR (u1.ESRP IS NOT NULL AND u2.ECRF IS NOT NULL))
     AND (u1.username = ? OR u2.username = ?)
-  
+
   UNION
-  
+
   SELECT
     CONCAT_WS(':',
       CASE
@@ -242,9 +242,9 @@ app.get('/getTestResults', (req, res) => {
     OR (u1.OSP_RTT IS NOT NULL AND u2.LNG IS NOT NULL)
     OR (u1.LNG IS NOT NULL AND u2.OSP_RTT IS NOT NULL))
     AND (u1.username = ? OR u2.username = ?)
-    
+
   union
-  
+
   SELECT
     CONCAT_WS(':',
       CASE
@@ -286,7 +286,7 @@ app.get('/getTestResults', (req, res) => {
 app.get('/getFailedTests', (req, res) => {
     const query = 'SELECT * FROM tests where username = ?';
     const value = [username]
-  
+
     db.query(query, value,(error, results) => {
       if (error) {
         console.error('Error fetching tests data:', error);
@@ -297,8 +297,8 @@ app.get('/getFailedTests', (req, res) => {
   });
 
   app.get('/api/tooling-data', (req, res) => {
-    const query = 'SELECT * FROM ToolingData WHERE Test_Scenario_1 IS NULL OR Test_Scenario_2 IS NULL OR Test_Scenario_3 IS NULL OR Test_Scenario_4 IS NULL OR Test_Scenario_5 IS NULL OR Test_Scenario_6 IS NULL';
-  
+    const query = 'SELECT * FROM ToolingData';
+
     db.query(query, (error, results) => {
       if (error) {
         console.error('Error fetching tooling data:', error);
@@ -308,21 +308,47 @@ app.get('/getFailedTests', (req, res) => {
     });
   });
 
-  app.post('/submitTestResult', (req, res) => {
-    const { testID, Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6, notes } = req.body;
-    const updateQuery = 'UPDATE ToolingData SET Test_Scenario_1 = ?, Test_Scenario_2 = ?, Test_Scenario_3 = ?, Test_Scenario_4 = ?,Test_Scenario_5 = ?,Test_Scenario_6 = ?, Notes = ? WHERE ID = ?';
-    const updateValues = [Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6, notes, testID];
-    db.query(updateQuery, updateValues, (error, results) => {
-      if (error) {
-        console.error('Error updating test record:', error);
-        return res.status(500).json({ message: 'Error updating test record' });
-      }
-      res.status(200).json({ message: 'Test record updated successfully' });
-    });
+  app.post('/submitTestResult', async (req, res) => {
+    const { testID, notes, Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6 } = req.body;
+  
+    try {
+      // Update the ToolingData table
+      const updateQuery = 'UPDATE ToolingData SET Test_Scenario_1 = ?, Test_Scenario_2 = ?, Test_Scenario_3 = ?, Test_Scenario_4 = ?, Test_Scenario_5 = ?, Test_Scenario_6 = ?, Notes = ? WHERE ID = ?';
+      const updateValues = [Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6, notes, testID];
+  
+      await new Promise((resolve, reject) => {
+        db.query(updateQuery, updateValues, (error, results) => {
+          if (error) {
+            console.error('Error updating test record:', error);
+            return reject('Error updating test record');
+          }
+          resolve();
+        });
+      });
+
+      const insertQuery = 'INSERT INTO Logs (ID, Notes) VALUES (?, ?)';
+      const insertValues = [testID, notes];
+  
+      await new Promise((resolve, reject) => {
+        db.query(insertQuery, insertValues, (error, results) => {
+          if (error) {
+            console.error('Error inserting new test record:', error);
+            return reject('Error inserting new test record');
+          }
+          resolve();
+        });
+      });
+  
+      res.status(200).json({ message: 'Both queries executed successfully' });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
   });
 
+  
+
   app.get('/api/failed-test-cases', (req, res) => {
-    const Query = 'SELECT * from ToolingData where Test_Scenario_1 = 0 OR Test_Scenario_2 = 0 OR Test_Scenario_3 = 0 OR Test_Scenario_4 = 0 OR Test_Scenario_5 = 0 OR Test_Scenario_6 = 0';
+    const Query = 'SELECT ToolingData.*, Logs.* FROM ToolingData JOIN Logs ON ToolingData.ID = Logs.ID Order by ToolingData.ID;';
     db.query(Query, (error, results) => {
       if (error) {
         console.error('Error updating test record:', error);
@@ -336,4 +362,3 @@ app.get('/getFailedTests', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
