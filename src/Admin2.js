@@ -166,14 +166,14 @@ function Admin2() {
             <th>ESRP</th>
             <th>CHE</th>
             <th>Location</th>
+            <th>Notes</th>
+            <th>Submit</th>
             <th>TS:1 I3 Call Origination</th>
             <th>TS:2 Transfer & Conferencing</th>
             <th>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
             <th>TS:4 EIDO Subscription for Call State Update Notifications</th>
             <th>TS:5 Alternative-Overflow via Service or Queue State</th>
             <th>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
-            <th>Notes</th>
-            <th>Submit</th>
           </tr>
         </thead>
         <tbody>
@@ -186,6 +186,16 @@ function Admin2() {
               <td>{row.ESRP}</td>
               <td>{row.CHE}</td>
               <td>{row.Location}</td>
+              <td>
+                <input
+                  type="text"
+                  value={notesMap[row.ID]}
+                  onChange={(e) => handleNotesChange(row.ID, e.target.value)}
+                />
+              </td>
+              <td>
+                <button onClick={() => handleSubmit(row.ID)}>Submit</button>
+              </td>
               <td>
                 <input
                   type="checkbox"
@@ -228,22 +238,14 @@ function Admin2() {
                   onChange={() => handleCheckboxChange(row.ID, 'TS6')}
                 />
               </td>
-              <td>
-                <input
-                  type="text"
-                  value={notesMap[row.ID]}
-                  onChange={(e) => handleNotesChange(row.ID, e.target.value)}
-                />
-              </td>
-              <td>
-                <button onClick={() => handleSubmit(row.ID)}>Submit</button>
-              </td>
+              
             </tr>
           ))}
         </tbody>
       </table>
+      
       <div className="failed-tests">
-        <h2>Less Successful Tests</h2>
+        <h2>Logs</h2>
         <table>
           <thead>
           <tr>
