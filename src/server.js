@@ -348,7 +348,7 @@ app.get('/getFailedTests', (req, res) => {
   
 
   app.get('/api/failed-test-cases', (req, res) => {
-    const Query = 'SELECT ToolingData.*, Logs.* FROM ToolingData JOIN Logs ON ToolingData.ID = Logs.ID Order by ToolingData.ID;';
+    const Query = 'SELECT ToolingData.*, Logs.* FROM ToolingData JOIN Logs ON ToolingData.ID = Logs.ID Order by ToolingData.ID DESC;';
     db.query(Query, (error, results) => {
       if (error) {
         console.error('Error updating test record:', error);

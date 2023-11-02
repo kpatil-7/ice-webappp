@@ -107,11 +107,11 @@ select:focus {
   }
 }
 table {
-  width: 100%; /* Make the table take up the full width of its container */
+  width: 85%; /* Make the table take up the full width of its container */
   max-width: 100%; /* Set a maximum width to prevent overflow */
 }
 
-th, td {
+td {
   border: 1px solid black;
   padding: 8px;
 }

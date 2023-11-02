@@ -6,7 +6,7 @@ function Admin2() {
   const [selectedTooling, setSelectedTooling] = useState('All');
   const [testScenarioChecks, setTestScenarioChecks] = useState({});
   const [notesMap, setNotesMap] = useState({});
-  const [editingTest, setEditingTest] = useState(null);
+  const [editingTest, setEditingTest] = useState([]);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/api/tooling-data`)
@@ -243,26 +243,56 @@ function Admin2() {
           ))}
         </tbody>
       </table>
-      
+      <div>
+        <h2>Less Successful Tests</h2>
+        <table>
+          <thead>
+            <tr>
+            <th style={{ width: '10px' }}>ID</th>
+            <th style={{ width: '10px' }}>OSP_LNG</th>
+            <th style={{ width: '10px' }}>BCF</th>
+            <th style={{ width: '10px' }}>ECRF</th>
+            <th style={{ width: '10px' }}>ESRP</th>
+            <th style={{ width: '10px' }}>CHE</th>
+            <th style={{ width: '10px' }}>Location</th>
+            <th style={{ width: '400px' }}>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.map((row, index) => (
+              <tr key={index}>
+                <td>{row.ID}</td>
+                <td>{row['OSP_LNG']}</td>
+                <td>{row.BCF}</td>
+                <td>{row.ECRF}</td>
+                <td>{row.ESRP}</td>
+                <td>{row.CHE}</td>
+                <td>{row.Location}</td>
+                <td>{row.Notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="failed-tests">
         <h2>Logs</h2>
         <table>
           <thead>
           <tr>
-        <th style={{ width: '15%' }}>ID</th>
-        <th style={{ width: '5%' }}>OSP_LNG</th>
-        <th style={{ width: '5%' }}>BCF</th>
-        <th style={{ width: '5%' }}>ECRF</th>
-        <th style={{ width: '5%' }}>ESRP</th>
-        <th style={{ width: '5%' }}>CHE</th>
-        <th style={{ width: '15%' }}>Location</th>
-        <th style={{ width: '40%' }}>Notes</th>
-        <th style={{ width: '10%' }}>TS:1 I3 Call Origination</th>
-        <th style={{ width: '10%' }}>TS:2 Transfer & Conferencing</th>
-        <th style={{ width: '10%' }}>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
-        <th style={{ width: '10%' }}>TS:4 EIDO Subscription for Call State Update Notifications</th>
-        <th style={{ width: '10%' }}>TS:5 Alternative-Overflow via Service or Queue State</th>
-        <th style={{ width: '10%' }}>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
+        <th style={{ width: '15px' }}>ID</th>
+        <th style={{ width: '5px' }}>OSP_LNG</th>
+        <th style={{ width: '5px' }}>BCF</th>
+        <th style={{ width: '5px' }}>ECRF</th>
+        <th style={{ width: '5px' }}>ESRP</th>
+        <th style={{ width: '5px' }}>CHE</th>
+        <th style={{ width: '15px' }}>Location</th>
+        <th style={{ width: '400px' }}>Notes</th>
+        <th style={{ width: '10px' }}>TS:1 I3 Call Origination</th>
+        <th style={{ width: '10px' }}>TS:2 Transfer & Conferencing</th>
+        <th style={{ width: '10px' }}>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
+        <th style={{ width: '10px' }}>TS:4 EIDO Subscription for Call State Update Notifications</th>
+        <th style={{ width: '10px' }}>TS:5 Alternative-Overflow via Service or Queue State</th>
+        <th style={{ width: '10px' }}>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
       </tr>
           </thead>
           <tbody>
