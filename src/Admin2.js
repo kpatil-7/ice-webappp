@@ -54,6 +54,18 @@ function Admin2() {
     window.location.href = `/`
   };
 
+  const handleInsert = () => {
+    window.location.href ='/Insert'
+    
+  };
+  const handleLogs = () => {
+    window.location.href = '/Logs'
+  };
+
+  const handleLST = () => {
+    window.location.href = '/LST'
+  };
+
   const handleToolingFilterChange = (e) => {
     setSelectedTooling(e.target.value);
   };
@@ -129,6 +141,10 @@ function Admin2() {
       });
   };
 
+  const handleBack = () => {
+    window.location.href = "/Admin2"
+  };
+
   const filteredData =
     selectedTooling === 'All'
       ? data
@@ -147,14 +163,26 @@ function Admin2() {
         <select
           id="toolingFilter"
           onChange={handleToolingFilterChange}
-          value={selectedTooling}
-        >
+          value={selectedTooling}>
+
           <option value="All">All</option>
           <option value="Tooling #1 MORNING">Tooling #1 MORNING</option>
           <option value="Tooling #1 AFTERNOON">Tooling #1 AFTERNOON</option>
           <option value="Tooling #2 MORNING">Tooling #2 MORNING</option>
           <option value="Tooling #2 AFTERNOON">Tooling #2 AFTERNOON</option>
         </select>
+
+        <div class="div1">
+        <button className="insert-button" onClick={handleInsert}>
+           Insert Test
+           </button> 
+          <button className="Logs-button" onClick={handleLogs}>
+            Logs
+          </button>
+          <button className="LST-button" onClick={handleLST}>
+            Less Successful Tests
+          </button>
+        </div>
       </div>
       <table>
         <thead>
@@ -166,14 +194,14 @@ function Admin2() {
             <th>ESRP</th>
             <th>CHE</th>
             <th>Location</th>
-            <th>Notes</th>
-            <th>Submit</th>
             <th>TS:1 I3 Call Origination</th>
             <th>TS:2 Transfer & Conferencing</th>
             <th>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
             <th>TS:4 EIDO Subscription for Call State Update Notifications</th>
             <th>TS:5 Alternative-Overflow via Service or Queue State</th>
             <th>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
+            <th>Notes</th>
+            <th>Submit</th>
           </tr>
         </thead>
         <tbody>
@@ -186,16 +214,6 @@ function Admin2() {
               <td>{row.ESRP}</td>
               <td>{row.CHE}</td>
               <td>{row.Location}</td>
-              <td>
-                <input
-                  type="text"
-                  value={notesMap[row.ID]}
-                  onChange={(e) => handleNotesChange(row.ID, e.target.value)}
-                />
-              </td>
-              <td>
-                <button onClick={() => handleSubmit(row.ID)}>Submit</button>
-              </td>
               <td>
                 <input
                   type="checkbox"
@@ -238,85 +256,20 @@ function Admin2() {
                   onChange={() => handleCheckboxChange(row.ID, 'TS6')}
                 />
               </td>
-              
+              <td>
+                <input
+                  type="text"
+                  value={notesMap[row.ID]}
+                  onChange={(e) => handleNotesChange(row.ID, e.target.value)}
+                />
+              </td>
+              <td>
+                <button onClick={() => handleSubmit(row.ID)}>Submit</button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div>
-        <h2>Less Successful Tests</h2>
-        <table>
-          <thead>
-            <tr>
-            <th style={{ width: '10px' }}>ID</th>
-            <th style={{ width: '10px' }}>OSP_LNG</th>
-            <th style={{ width: '10px' }}>BCF</th>
-            <th style={{ width: '10px' }}>ECRF</th>
-            <th style={{ width: '10px' }}>ESRP</th>
-            <th style={{ width: '10px' }}>CHE</th>
-            <th style={{ width: '10px' }}>Location</th>
-            <th style={{ width: '400px' }}>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.map((row, index) => (
-              <tr key={index}>
-                <td>{row.ID}</td>
-                <td>{row['OSP_LNG']}</td>
-                <td>{row.BCF}</td>
-                <td>{row.ECRF}</td>
-                <td>{row.ESRP}</td>
-                <td>{row.CHE}</td>
-                <td>{row.Location}</td>
-                <td>{row.Notes}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="failed-tests">
-        <h2>Logs</h2>
-        <table>
-          <thead>
-          <tr>
-        <th style={{ width: '15px' }}>ID</th>
-        <th style={{ width: '5px' }}>OSP_LNG</th>
-        <th style={{ width: '5px' }}>BCF</th>
-        <th style={{ width: '5px' }}>ECRF</th>
-        <th style={{ width: '5px' }}>ESRP</th>
-        <th style={{ width: '5px' }}>CHE</th>
-        <th style={{ width: '15px' }}>Location</th>
-        <th style={{ width: '400px' }}>Notes</th>
-        <th style={{ width: '10px' }}>TS:1 I3 Call Origination</th>
-        <th style={{ width: '10px' }}>TS:2 Transfer & Conferencing</th>
-        <th style={{ width: '10px' }}>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
-        <th style={{ width: '10px' }}>TS:4 EIDO Subscription for Call State Update Notifications</th>
-        <th style={{ width: '10px' }}>TS:5 Alternative-Overflow via Service or Queue State</th>
-        <th style={{ width: '10px' }}>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
-      </tr>
-          </thead>
-          <tbody>
-            {failedTestCases.map((row, index) => (
-              <tr key={index}>
-                <td>{row.ID}</td>
-                <td>{row['OSP_LNG']}</td>
-                <td>{row.BCF}</td>
-                <td>{row.ECRF}</td>
-                <td>{row.ESRP}</td>
-                <td>{row.CHE}</td>
-                <td>{row.Location}</td>
-                <td>{row.Notes}</td>
-                <td>{row.Test_Scenario_1}</td>
-                <td>{row.Test_Scenario_2}</td>
-                <td>{row.Test_Scenario_3}</td>
-                <td>{row.Test_Scenario_4}</td>
-                <td>{row.Test_Scenario_5}</td>
-                <td>{row.Test_Scenario_6}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   );
 }

@@ -357,8 +357,20 @@ app.get('/getFailedTests', (req, res) => {
       res.status(200).json({ failedTestCases: results});
     });
   });
-
-
+  app.post('/api/insertData', (req, res) => {
+    const {ID, OSP_LNG, BCF, ECRF, ESRP, CHE, Location, Notes = 'Test Added'} = req.body;
+    const query= 'INSERT INTO ToolingData (ID, OSP_LNG, BCF, ECRF, ESRP, CHE, Location, Notes) VALUES (?, ?, ?, ?, ?, ?, ?,?)';
+    const values = [ID, OSP_LNG, BCF, ECRF, ESRP, CHE, Location, Notes]
+    db.query(query, values, (err, results) => {
+      if (err) {
+        console.error('Error inserting data into MySQL:', err);
+        res.status(500).json({ message: 'Failed to insert data' });
+      } else {
+        res.status(201).json({ message: 'Data inserted successfully' });
+      }
+    });
+  });
+  
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

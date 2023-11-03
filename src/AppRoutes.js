@@ -7,6 +7,9 @@ import Bpage from './Bpage';
 import Overview from './Overview';
 import Done from './Done';
 import Admin2 from './Admin2';
+import Insert from './Insert';
+import Logs from './Logs';
+import LST from './LST';
 
 function AppRoutes() {
   const [username, setUsername] = useState('');
@@ -27,6 +30,9 @@ function AppRoutes() {
         <Route path="/" element={<Login />} />
         <Route path="/Welcome/:username" element={<Welcome />} />
         <Route path="/Admin2" element={<Admin2 />} />
+        <Route path="/Insert" element={<Insert />} />
+        <Route path="/Logs" element={<Logs />} />
+        <Route path="/LST" element={<LST />} />
         <Route path="/UserProfileForm/:username" element={<UserProfileForm />} />
         <Route path="/BPage/:username" element={<Bpage />} />
         <Route path="/Done" element={<Done />} />
