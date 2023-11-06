@@ -297,7 +297,8 @@ app.get('/getFailedTests', (req, res) => {
   });
 
   app.get('/api/tooling-data', (req, res) => {
-    const query = 'SELECT * FROM ToolingData';
+    // const query = 'SELECT * FROM ToolingData';
+    const query = 'SELECT ToolingData.*, Logs.ExecutionTime FROM ToolingData LEFT JOIN Logs ON ToolingData.ID = Logs.ID ORDER BY Logs.ExecutionTime';
 
     db.query(query, (error, results) => {
       if (error) {

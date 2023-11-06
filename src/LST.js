@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './styles.css';
 function LST() {
     const [data, setData] = useState([]);
-    const [failedTestCases, setFailedTestCases] = useState([]);
     const [selectedTooling, setSelectedTooling] = useState('All');
     const [testScenarioChecks, setTestScenarioChecks] = useState({});
     const [notesMap, setNotesMap] = useState({});
@@ -56,6 +55,7 @@ function LST() {
         <table>
           <thead>
             <tr>
+            <th style={{ width: '50px' }}>Execution Time</th> 
             <th style={{ width: '10px' }}>ID</th>
             <th style={{ width: '10px' }}>OSP_LNG</th>
             <th style={{ width: '10px' }}>BCF</th>
@@ -63,12 +63,13 @@ function LST() {
             <th style={{ width: '10px' }}>ESRP</th>
             <th style={{ width: '10px' }}>CHE</th>
             <th style={{ width: '10px' }}>Location</th>
-            <th style={{ width: '400px' }}>Notes</th>
+            <th style={{ width: '600px' }}>Notes</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((row, index) => (
               <tr key={index}>
+                <td>{row.ExecutionTime}</td>
                 <td>{row.ID}</td>
                 <td>{row['OSP_LNG']}</td>
                 <td>{row.BCF}</td>

@@ -17,6 +17,7 @@ function Logs() {
       });
   }, []);
 
+
   const handleBack = () => {
     window.location.href = "/Admin2"
   };
