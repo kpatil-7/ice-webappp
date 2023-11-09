@@ -6,7 +6,8 @@ function Admin2() {
   const [selectedTooling, setSelectedTooling] = useState('All');
   const [testScenarioChecks, setTestScenarioChecks] = useState({});
   const [notesMap, setNotesMap] = useState({});
-  const [editingTest, setEditingTest] = useState([]);
+
+  
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/api/tooling-data`)
@@ -49,6 +50,72 @@ function Admin2() {
         console.error('Error fetching failed test cases:', error);
       });
   }, []);
+
+  const handleESRPChange = (testID, selectedESRP) => {
+    setData((prevData) => {
+      return prevData.map((row) => {
+        if (row.ID === testID) {
+          return { ...row, ESRP: selectedESRP };
+        }
+        return row;
+      });
+    });
+  };
+
+  const handleOSPChange = (testID, selectedOSP) => {
+    setData((prevData) => {
+      return prevData.map((row) => {
+        if (row.ID === testID) {
+          return { ...row, OSP: selectedOSP };
+        }
+        return row;
+      });
+    });
+  };
+
+  const handleBCFChange = (testID, selectedBCF) => {
+    setData((prevData) => {
+      return prevData.map((row) => {
+        if (row.ID === testID) {
+          return { ...row, BCF: selectedBCF };
+        }
+        return row;
+      });
+    });
+  };
+
+  const handleECRFChange = (testID, selectedECRF) => {
+    setData((prevData) => {
+      return prevData.map((row) => {
+        if (row.ID === testID) {
+          return { ...row, ECRF: selectedECRF };
+        }
+        return row;
+      });
+    });
+  };
+
+  const handleCHEChange = (testID, selectedCHE) => {
+    setData((prevData) => {
+      return prevData.map((row) => {
+        if (row.ID === testID) {
+          return { ...row, CHE: selectedCHE };
+        }
+        return row;
+      });
+    });
+  };
+
+  const handleLocationChange = (testID, selectedLocation) => {
+    setData((prevData) => {
+      return prevData.map((row) => {
+        if (row.ID === testID) {
+          return { ...row, CHE: selectedLocation };
+        }
+        return row;
+      });
+    });
+  };
 
   const handleLogout = () => {
     window.location.href = `/`
@@ -141,10 +208,6 @@ function Admin2() {
       });
   };
 
-  const handleBack = () => {
-    window.location.href = "/Admin2"
-  };
-
   const filteredData =
     selectedTooling === 'All'
       ? data
@@ -188,7 +251,7 @@ function Admin2() {
         <thead>
           <tr>
             <th>ID</th>
-            <th>OSP_LNG</th>
+            <th>OSP</th>
             <th>BCF</th>
             <th>ECRF</th>
             <th>ESRP</th>
@@ -208,12 +271,68 @@ function Admin2() {
           {filteredData.map((row, index) => (
             <tr key={index}>
               <td>{row.ID}</td>
-              <td>{row['OSP_LNG']}</td>
-              <td>{row.BCF}</td>
-              <td>{row.ECRF}</td>
-              <td>{row.ESRP}</td>
-              <td>{row.CHE}</td>
-              <td>{row.Location}</td>
+
+              <td>
+              {/* <td>{row['OSP']}</td> */}
+              <select
+                  value={row.OSP}
+                  onChange={(e) => handleOSPChange(row.ID, e.target.value)}>
+                  <option value="TMO">TMO</option>
+                  <option value="ACU">ACU</option>
+                  <option value="VAL">VAL</option>
+                </select></td>
+
+              <td>
+              {/* <td>{row.BCF}</td> */}
+              <select
+                  value={row.BCF}
+                  onChange={(e) => handleBCFChange(row.ID, e.target.value)}>
+                  <option value="IND">IND</option>
+                  <option value="ATOS">ATOS</option>
+                </select></td>
+
+              <td>
+              {/* <td>{row.ECRF}</td> */}
+              <select
+                  value={row.ESRF}
+                  onChange={(e) => handleECRFChange(row.ID, e.target.value)}>
+                  <option value="MOTO">MOTO</option>
+                  <option value="INTRADO">INTRADO</option>
+                </select></td>
+
+              <td>
+              {/* <td>{row.ESRP}</td> */}
+              <select
+                  value={row.ESRP}
+                  onChange={(e) => handleESRPChange(row.ID, e.target.value)}>
+                  <option value="FREQ">FREQ</option>
+                  <option value="IND">IND</option>
+                  <option value="ATOS">ATOS</option>
+                </select></td>
+
+              <td>
+              {/* <td>{row.CHE}</td> */}
+              <select
+                  value={row.CHE}
+                  onChange={(e) => handleCHEChange(row.ID, e.target.value)}>
+                  <option value="MICR">MICR</option>
+                  <option value="COM/SOL">COM/SOL</option>
+                  <option value="FREQ">FREQ</option>
+                  <option value="ATOS">ATOS</option>
+                  <option value="MOTO">MOTO</option>
+                  <option value="ZET">ZET</option>
+                </select></td>
+
+              {/* <td>{row.Location} */}
+              <td>
+              <select
+                  value={row.Location}
+                  onChange={(e) => handleLocationChange(row.ID, e.target.value)}>
+                  <option value="FREQ">CHANGE</option>
+                  <option value="IND">CHANGE</option>
+                  <option value="ATOS">CHANGE</option>
+                </select></td>
+            
               <td>
                 <input
                   type="checkbox"

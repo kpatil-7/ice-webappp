@@ -310,12 +310,12 @@ app.get('/getFailedTests', (req, res) => {
   });
 
   app.post('/submitTestResult', async (req, res) => {
-    const { testID, notes, Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6 } = req.body;
+    const { testID, notes, OSP, BCF, ECRF,ESRP, CHE, Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6 } = req.body;
   
     try {
       // Update the ToolingData table
-      const updateQuery = 'UPDATE ToolingData SET Test_Scenario_1 = ?, Test_Scenario_2 = ?, Test_Scenario_3 = ?, Test_Scenario_4 = ?, Test_Scenario_5 = ?, Test_Scenario_6 = ?, Notes = ? WHERE ID = ?';
-      const updateValues = [Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6, notes, testID];
+      const updateQuery = 'UPDATE ToolingData SET OSP =?, BCF =?, ECRF=?, ESRP=?, CHE=?,Test_Scenario_1 = ?, Test_Scenario_2 = ?, Test_Scenario_3 = ?, Test_Scenario_4 = ?, Test_Scenario_5 = ?, Test_Scenario_6 = ?, Notes = ? WHERE ID = ?';
+      const updateValues = [OSP, BCF, ECRF,ESRP, CHE, Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6, notes, testID];
   
       await new Promise((resolve, reject) => {
         db.query(updateQuery, updateValues, (error, results) => {
@@ -359,9 +359,9 @@ app.get('/getFailedTests', (req, res) => {
     });
   });
   app.post('/api/insertData', (req, res) => {
-    const {ID, OSP_LNG, BCF, ECRF, ESRP, CHE, Location, Notes = 'Test Added'} = req.body;
-    const query= 'INSERT INTO ToolingData (ID, OSP_LNG, BCF, ECRF, ESRP, CHE, Location, Notes) VALUES (?, ?, ?, ?, ?, ?, ?,?)';
-    const values = [ID, OSP_LNG, BCF, ECRF, ESRP, CHE, Location, Notes]
+    const {ID, OSP, BCF, ECRF, ESRP, CHE, Location, Notes = 'Test Added'} = req.body;
+    const query= 'INSERT INTO ToolingData (ID, OSP, BCF, ECRF, ESRP, CHE, Location, Notes) VALUES (?, ?, ?, ?, ?, ?, ?,?)';
+    const values = [ID, OSP, BCF, ECRF, ESRP, CHE, Location, Notes]
     db.query(query, values, (err, results) => {
       if (err) {
         console.error('Error inserting data into MySQL:', err);

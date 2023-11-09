@@ -1,0 +1,8 @@
+This is a text file that contains instructions to everything here.
+1. Generate Tooling Map from the Colab notebook. 
+1.b. figure out a process/ UI to automate this process.
+
+2. Upload the new datbase in mysql, refer instructions notepad file on the command to get to it.
+
+3. Change the Location in Admin2.js under handleLocationChange.
+

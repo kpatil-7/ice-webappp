@@ -1,52 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css';
 function LST() {
-    const [data, setData] = useState([]);
-    const [selectedTooling, setSelectedTooling] = useState('All');
-    const [testScenarioChecks, setTestScenarioChecks] = useState({});
-    const [notesMap, setNotesMap] = useState({});
+    const [failedTestCases, setFailedTestCases] = useState([]);
+    useEffect(() => { 
+      // tooling-data
+    fetch(`${process.env.REACT_APP_API_URL}/api/failed-test-cases`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.failedTestCases) {
+          setFailedTestCases(data.failedTestCases);
+        } else {
+          console.error('Failed test cases not found');
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching failed test cases:', error);
+      });
+  }, []);
 
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/api/tooling-data`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.toolingData) {
-              const initialTestScenarioChecks = {};
-              const initialNotesMap = {};
-              data.toolingData.forEach((row) => {
-                initialTestScenarioChecks[row.ID] = {
-                  TS1: false,
-                  TS2: false,
-                  TS3: false,
-                  TS4: false,
-                  TS5: false,
-                  TS6: false,
-                };
-              });
-              setTestScenarioChecks(initialTestScenarioChecks);
-              setNotesMap(initialNotesMap);
-              setData(data.toolingData);
-            } else {
-              console.error('Tooling data not found');
-            }
-          })
-          .catch((error) => {
-            console.error('Error fetching tooling data:', error);
-          });
-        }, []);
 
-        const handleBack = () => {
-            window.location.href = "/Admin2"
-          };
-
-    const filteredData =
-    selectedTooling === 'All'
-      ? data
-      : data.filter((row) => row.ToolingName === selectedTooling);
-
+  const handleBack = () => {
+    window.location.href = "/Admin2"
+  };
     return(
       <div>
-      <div class="div2">
+        <div className="div2">
         <h2>Less Successful Tests</h2>
         <button className="back" onClick={handleBack}>
           Back
@@ -54,36 +32,46 @@ function LST() {
         </div>
         <table>
           <thead>
-            <tr>
-            <th style={{ width: '50px' }}>Execution Time</th> 
-            <th style={{ width: '10px' }}>ID</th>
-            <th style={{ width: '10px' }}>OSP_LNG</th>
-            <th style={{ width: '10px' }}>BCF</th>
-            <th style={{ width: '10px' }}>ECRF</th>
-            <th style={{ width: '10px' }}>ESRP</th>
-            <th style={{ width: '10px' }}>CHE</th>
-            <th style={{ width: '10px' }}>Location</th>
-            <th style={{ width: '600px' }}>Notes</th>
-            </tr>
+          <tr>
+        <th style={{ width: '15px' }}>ID</th>
+        <th style={{ width: '5px' }}>OSP</th>
+        <th style={{ width: '5px' }}>BCF</th>
+        <th style={{ width: '5px' }}>ECRF</th>
+        <th style={{ width: '5px' }}>ESRP</th>
+        <th style={{ width: '5px' }}>CHE</th>
+        <th style={{ width: '15px' }}>Location</th>
+        <th style={{ width: '400px' }}>Notes</th>
+        <th style={{ width: '10px' }}>TS:1 I3 Call Origination</th>
+        <th style={{ width: '10px' }}>TS:2 Transfer & Conferencing</th>
+        <th style={{ width: '10px' }}>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
+        <th style={{ width: '10px' }}>TS:4 EIDO Subscription for Call State Update Notifications</th>
+        <th style={{ width: '10px' }}>TS:5 Alternative-Overflow via Service or Queue State</th>
+        <th style={{ width: '10px' }}>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
+      </tr>
           </thead>
           <tbody>
-            {filteredData.map((row, index) => (
+            {failedTestCases.map((row, index) => (
               <tr key={index}>
-                <td>{row.ExecutionTime}</td>
                 <td>{row.ID}</td>
-                <td>{row['OSP_LNG']}</td>
+                <td>{row['OSP']}</td>
                 <td>{row.BCF}</td>
                 <td>{row.ECRF}</td>
                 <td>{row.ESRP}</td>
                 <td>{row.CHE}</td>
                 <td>{row.Location}</td>
                 <td>{row.Notes}</td>
+                <td>{row.Test_Scenario_1}</td>
+                <td>{row.Test_Scenario_2}</td>
+                <td>{row.Test_Scenario_3}</td>
+                <td>{row.Test_Scenario_4}</td>
+                <td>{row.Test_Scenario_5}</td>
+                <td>{row.Test_Scenario_6}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
     )
-
 }
 export default LST;
+

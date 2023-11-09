@@ -115,7 +115,7 @@ DROP TABLE IF EXISTS `toolingdata`;
 CREATE TABLE `toolingdata` (
   `ToolingName` varchar(50) DEFAULT NULL,
   `ID` varchar(10) DEFAULT NULL,
-  `OSP_LNG` varchar(10) DEFAULT NULL,
+  `OSP` varchar(10) DEFAULT NULL,
   `BCF` varchar(10) DEFAULT NULL,
   `ECRF` varchar(10) DEFAULT NULL,
   `ESRP` varchar(10) DEFAULT NULL,
