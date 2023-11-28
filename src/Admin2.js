@@ -6,8 +6,11 @@ function Admin2() {
   const [selectedTooling, setSelectedTooling] = useState('All');
   const [testScenarioChecks, setTestScenarioChecks] = useState({});
   const [notesMap, setNotesMap] = useState({});
-
-  
+  const [selectedOSPValues, setSelectedOSPValues] = useState({});
+  const [selectedBCFValues, setSelectedBCFValues] = useState({});
+  const [selectedECRFValues, setSelectedECRFValues] = useState({});
+  const [selectedESRPValues, setSelectedESRPValues] = useState({});
+  const [selectedCHEValues, setSelectedCHEValues] = useState({});
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/api/tooling-data`)
@@ -50,72 +53,6 @@ function Admin2() {
         console.error('Error fetching failed test cases:', error);
       });
   }, []);
-
-  const handleESRPChange = (testID, selectedESRP) => {
-    setData((prevData) => {
-      return prevData.map((row) => {
-        if (row.ID === testID) {
-          return { ...row, ESRP: selectedESRP };
-        }
-        return row;
-      });
-    });
-  };
-
-  const handleOSPChange = (testID, selectedOSP) => {
-    setData((prevData) => {
-      return prevData.map((row) => {
-        if (row.ID === testID) {
-          return { ...row, OSP: selectedOSP };
-        }
-        return row;
-      });
-    });
-  };
-
-  const handleBCFChange = (testID, selectedBCF) => {
-    setData((prevData) => {
-      return prevData.map((row) => {
-        if (row.ID === testID) {
-          return { ...row, BCF: selectedBCF };
-        }
-        return row;
-      });
-    });
-  };
-
-  const handleECRFChange = (testID, selectedECRF) => {
-    setData((prevData) => {
-      return prevData.map((row) => {
-        if (row.ID === testID) {
-          return { ...row, ECRF: selectedECRF };
-        }
-        return row;
-      });
-    });
-  };
-
-  const handleCHEChange = (testID, selectedCHE) => {
-    setData((prevData) => {
-      return prevData.map((row) => {
-        if (row.ID === testID) {
-          return { ...row, CHE: selectedCHE };
-        }
-        return row;
-      });
-    });
-  };
-
-  const handleLocationChange = (testID, selectedLocation) => {
-    setData((prevData) => {
-      return prevData.map((row) => {
-        if (row.ID === testID) {
-          return { ...row, CHE: selectedLocation };
-        }
-        return row;
-      });
-    });
-  };
 
   const handleLogout = () => {
     window.location.href = `/`
@@ -162,7 +99,7 @@ function Admin2() {
     const Test_Scenario_4 = testScenarioChecks[testID] ? testScenarioChecks[testID].TS4 : false;
     const Test_Scenario_5 = testScenarioChecks[testID] ? testScenarioChecks[testID].TS5 : false;
     const Test_Scenario_6 = testScenarioChecks[testID] ? testScenarioChecks[testID].TS6 : false;
-
+  
     const postData = {
       testID,
       Test_Scenario_1,
@@ -172,13 +109,21 @@ function Admin2() {
       Test_Scenario_5,
       Test_Scenario_6,
       notes,
+      OSP: selectedOSPValues[testID] || '',
+      BCF: selectedBCFValues[testID] || '',
+      ECRF: selectedECRFValues[testID] || '',
+      ESRP: selectedESRPValues[testID] || '',
+      CHE: selectedCHEValues[testID] || '',
+      Location,
     };
-    
+
+    console.log('Submitting the following data:', postData);
+  
     setNotesMap((prevNotesMap) => ({
       ...prevNotesMap,
       [testID]: '',
     }));
-
+  
     fetch(`${process.env.REACT_APP_API_URL}/submitTestResult`, {
       method: 'POST',
       headers: {
@@ -189,7 +134,6 @@ function Admin2() {
       .then((response) => response.json())
       .then((responseData) => {
         console.log(responseData.message);
-        // setData((prevData) => prevData.filter((row) => row.ID !== testID));
         if (
           Test_Scenario_1 ||
           Test_Scenario_2 ||
@@ -206,7 +150,79 @@ function Admin2() {
       .catch((error) => {
         console.error('Error submitting test result:', error);
       });
+  };  
+
+  const handleBack = () => {
+    window.location.href = "/Admin2"
   };
+
+  const handleFieldChange = (testID, fieldValues) => {
+    setData((prevData) => {
+      return prevData.map((row) => {
+        if (row.ID === testID) {
+          return { ...row, ...fieldValues };
+        }
+        return row;
+      });
+    });
+  
+    const postData = {
+      testID,
+      ...fieldValues,
+    };
+  
+
+    fetch(`${process.env.REACT_APP_API_URL}/updateData`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(`Fields updated successfully:`, data);
+      })
+      .catch((error) => {
+        console.error(`Error updating fields:`, error);
+      });
+  };
+  
+  const handleOSPChange = (testID, selectedOSP) => {
+    setSelectedOSPValues((prevValues) => ({
+      ...prevValues,
+      [testID]: selectedOSP,
+    }));
+  };
+
+  const handleBCFChange = (testID, selectedBCF) => {
+    setSelectedBCFValues((prevValues) => ({
+      ...prevValues,
+      [testID]: selectedBCF,
+    }));
+  };
+
+  const handleECRFChange = (testID, selectedECRF) => {
+    setSelectedECRFValues((prevValues) => ({
+      ...prevValues,
+      [testID]: selectedECRF,
+    }));
+  };
+  
+  const handleESRPChange = (testID, selectedESRP) => {
+    setSelectedESRPValues((prevValues) => ({
+      ...prevValues,
+      [testID]: selectedESRP,
+    }));
+  };
+  
+  const handleCHEChange = (testID, selectedCHE) => {
+    setSelectedCHEValues((prevValues) => ({
+      ...prevValues,
+      [testID]: selectedCHE,
+    }));
+  };
+  
 
   const filteredData =
     selectedTooling === 'All'
@@ -257,82 +273,93 @@ function Admin2() {
             <th>ESRP</th>
             <th>CHE</th>
             <th>Location</th>
+            <th>Notes</th>
+            <th>Submit</th>
             <th>TS:1 I3 Call Origination</th>
             <th>TS:2 Transfer & Conferencing</th>
             <th>TS:3 Transfer with EIDO Conveyance Subscription to an incident</th>
             <th>TS:4 EIDO Subscription for Call State Update Notifications</th>
             <th>TS:5 Alternative-Overflow via Service or Queue State</th>
             <th>TS:6 Redirection-Alternative-Overflow via SIP Error Response</th>
-            <th>Notes</th>
-            <th>Submit</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.map((row, index) => (
             <tr key={index}>
               <td>{row.ID}</td>
+              {/* <td>{row.OSP}</td>
+              <td>{row.BCF}</td>
+              <td>{row.ECRF}</td>
+              <td>{row.ESRP}</td>
+              <td>{row.CHE}</td> */}
 
               <td>
-              {/* <td>{row['OSP']}</td> */}
-              <select
-                  value={row.OSP}
-                  onChange={(e) => handleOSPChange(row.ID, e.target.value)}>
+                <select
+                  value={selectedOSPValues[row.ID] || row.OSP}
+                  onChange={(e) => handleOSPChange(row.ID, e.target.value)}
+                >
                   <option value="TMO">TMO</option>
                   <option value="ACU">ACU</option>
                   <option value="VAL">VAL</option>
-                </select></td>
+                </select>
+              </td>
 
               <td>
-              {/* <td>{row.BCF}</td> */}
-              <select
-                  value={row.BCF}
-                  onChange={(e) => handleBCFChange(row.ID, e.target.value)}>
+                <select
+                  value={selectedBCFValues[row.ID] || row.BCF}
+                  onChange={(e) => handleBCFChange(row.ID, e.target.value)}
+                >
                   <option value="IND">IND</option>
                   <option value="ATOS">ATOS</option>
-                </select></td>
+                </select>
+              </td>
 
               <td>
-              {/* <td>{row.ECRF}</td> */}
-              <select
-                  value={row.ESRF}
-                  onChange={(e) => handleECRFChange(row.ID, e.target.value)}>
+                <select
+                  value={selectedECRFValues[row.ID] || row.ECRF}
+                  onChange={(e) => handleECRFChange(row.ID, e.target.value)}
+                >
                   <option value="MOTO">MOTO</option>
                   <option value="INTRADO">INTRADO</option>
-                </select></td>
+                </select>
+              </td>
 
-              <td>
-              {/* <td>{row.ESRP}</td> */}
-              <select
-                  value={row.ESRP}
-                  onChange={(e) => handleESRPChange(row.ID, e.target.value)}>
+                <td>
+                <select
+                  value={selectedESRPValues[row.ID] || row.ESRP}
+                  onChange={(e) => handleESRPChange(row.ID, e.target.value)}
+                >
                   <option value="FREQ">FREQ</option>
                   <option value="IND">IND</option>
                   <option value="ATOS">ATOS</option>
-                </select></td>
+                </select>
+              </td>
 
               <td>
-              {/* <td>{row.CHE}</td> */}
-              <select
-                  value={row.CHE}
-                  onChange={(e) => handleCHEChange(row.ID, e.target.value)}>
+                <select
+                  value={selectedCHEValues[row.ID] || row.CHE}
+                  onChange={(e) => handleCHEChange(row.ID, e.target.value)}
+                >
                   <option value="MICR">MICR</option>
                   <option value="COM/SOL">COM/SOL</option>
                   <option value="FREQ">FREQ</option>
                   <option value="ATOS">ATOS</option>
                   <option value="MOTO">MOTO</option>
                   <option value="ZET">ZET</option>
-                </select></td>
+                </select>
+              </td>
 
-              {/* <td>{row.Location} */}
+              <td>{row.Location}</td>
               <td>
-              <select
-                  value={row.Location}
-                  onChange={(e) => handleLocationChange(row.ID, e.target.value)}>
-                  <option value="FREQ">CHANGE</option>
-                  <option value="IND">CHANGE</option>
-                  <option value="ATOS">CHANGE</option>
-                </select></td>
-            
+                <input
+                  type="text"
+                  value={notesMap[row.ID]}
+                  onChange={(e) => handleNotesChange(row.ID, e.target.value)}
+                />
+              </td>
+              <td>
+                <button onClick={() => handleSubmit(row.ID)}>Submit</button>
+              </td>
               <td>
                 <input
                   type="checkbox"
@@ -374,16 +401,6 @@ function Admin2() {
                   checked={testScenarioChecks[row.ID] ? testScenarioChecks[row.ID].TS6 : false}
                   onChange={() => handleCheckboxChange(row.ID, 'TS6')}
                 />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  value={notesMap[row.ID]}
-                  onChange={(e) => handleNotesChange(row.ID, e.target.value)}
-                />
-              </td>
-              <td>
-                <button onClick={() => handleSubmit(row.ID)}>Submit</button>
               </td>
             </tr>
           ))}

@@ -72,7 +72,7 @@ function Logs() {
               <tr key={index}>
                 <td>{row.ExecutionTime}</td>
                 <td>{row.ID}</td>
-                <td>{row['OSP']}</td>
+                <td>{row.OSP}</td>
                 <td>{row.BCF}</td>
                 <td>{row.ECRF}</td>
                 <td>{row.ESRP}</td>

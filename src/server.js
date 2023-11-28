@@ -297,8 +297,7 @@ app.get('/getFailedTests', (req, res) => {
   });
 
   app.get('/api/tooling-data', (req, res) => {
-    // const query = 'SELECT * FROM ToolingData';
-    const query = 'SELECT ToolingData.*, Logs.ExecutionTime FROM ToolingData LEFT JOIN Logs ON ToolingData.ID = Logs.ID ORDER BY Logs.ExecutionTime';
+    const query = 'SELECT * FROM ToolingData';
 
     db.query(query, (error, results) => {
       if (error) {
@@ -310,12 +309,12 @@ app.get('/getFailedTests', (req, res) => {
   });
 
   app.post('/submitTestResult', async (req, res) => {
-    const { testID, notes, OSP, BCF, ECRF,ESRP, CHE, Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6 } = req.body;
+    const { testID, notes, Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6 } = req.body;
   
     try {
       // Update the ToolingData table
-      const updateQuery = 'UPDATE ToolingData SET OSP =?, BCF =?, ECRF=?, ESRP=?, CHE=?,Test_Scenario_1 = ?, Test_Scenario_2 = ?, Test_Scenario_3 = ?, Test_Scenario_4 = ?, Test_Scenario_5 = ?, Test_Scenario_6 = ?, Notes = ? WHERE ID = ?';
-      const updateValues = [OSP, BCF, ECRF,ESRP, CHE, Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6, notes, testID];
+      const updateQuery = 'UPDATE ToolingData SET Test_Scenario_1 = ?, Test_Scenario_2 = ?, Test_Scenario_3 = ?, Test_Scenario_4 = ?, Test_Scenario_5 = ?, Test_Scenario_6 = ?, Notes = ? WHERE ID = ?';
+      const updateValues = [Test_Scenario_1, Test_Scenario_2, Test_Scenario_3, Test_Scenario_4, Test_Scenario_5, Test_Scenario_6, notes, testID];
   
       await new Promise((resolve, reject) => {
         db.query(updateQuery, updateValues, (error, results) => {
@@ -329,6 +328,7 @@ app.get('/getFailedTests', (req, res) => {
 
       const insertQuery = 'INSERT INTO Logs (ID, Notes) VALUES (?, ?)';
       const insertValues = [testID, notes];
+      console.log(insertValues)
   
       await new Promise((resolve, reject) => {
         db.query(insertQuery, insertValues, (error, results) => {
@@ -345,9 +345,6 @@ app.get('/getFailedTests', (req, res) => {
       res.status(500).json({ message: error });
     }
   });
-
-  
-
   app.get('/api/failed-test-cases', (req, res) => {
     const Query = 'SELECT ToolingData.*, Logs.* FROM ToolingData JOIN Logs ON ToolingData.ID = Logs.ID Order by ToolingData.ID DESC;';
     db.query(Query, (error, results) => {
@@ -371,7 +368,22 @@ app.get('/getFailedTests', (req, res) => {
       }
     });
   });
+  app.post('/updateData', (req, res) => {
+    const { OSP, BCF, ECRF, ESRP, CHE, notes } = req.body;
+    const query = `INSERT INTO ToolingData (OSP, BCF, ECRF, ESRP, CHE, Notes) VALUES (?, ?, ?, ?, ?, ?)`;
+    const values = [OSP, BCF, ECRF, ESRP, CHE, notes]
+    console.log(values)
   
+    db.query(query, values, (error, results, fields) => {
+      if (error) {
+        console.error('Error inserting data:', error);
+        res.status(500).json({ message: 'Error inserting data' });
+      } else {
+        res.json({ message: 'Data inserted successfully' });
+      }
+    });
+  });
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

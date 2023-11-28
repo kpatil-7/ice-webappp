@@ -4,7 +4,7 @@ import './styles.css';
 function Insert() {
   const [data, setData] = useState({
     ID: '',
-    OSP: '',
+    OSP_LNG: '',
     BCF: '',
     ECRF: '',
     ESRP: '',
@@ -58,7 +58,7 @@ function Insert() {
         setSuccessMessage('Data saved successfully');
         setData({
           ID: '',
-          OSP: '',
+          OSP_LNG: '',
           BCF: '',
           ECRF: '',
           ESRP: '',
@@ -89,7 +89,7 @@ function Insert() {
         <thead>
           <tr>
             <th>ID</th>
-            <th>OSP</th>
+            <th>OSP_LNG</th>
             <th>BCF</th>
             <th>ECRF</th>
             <th>ESRP</th>
@@ -109,8 +109,8 @@ function Insert() {
             </td>
             <td><input
               type="text"
-              name="OSP"
-              value={data.OSP}
+              name="OSP_LNG"
+              value={data.OSP_LNG}
               onChange={handleInputChange}
             /></td>
             <td><input
